@@ -1,21 +1,31 @@
-<h1>Welcome to my own world</h1>
+{% extends "base.html" %}
 
-<p>And my name is {{fn}} </p>
+{% block content %}
 
-<p> {{st| title}} </p>
+<center>
+    <div>
+        <h1>Welcome to my own world</h1>
 
-<h1>Car List:</h1>
+        <p>And my name is {{fn}} </p>
+
+        <p> {{st| title}} </p>
+
+        <h1>Car List:</h1>
 
 
-{% for car in cars %}
-    {% if car == 40708 %}
-        <li>{{car + 1}} <br></li>
-    {% else %}
-        <li> {{car| title}} </li>
+        {% for car in cars %}
+            {% if car == 40708 %}
+                <li>{{car + 1}} <br></li>
+            {% else %}
+                <li> {{car| title}} </li>
 
-    {% endif %}
-     
-{% endfor %}
+            {% endif %}
+            
+        {% endfor %}
 
-<br>
-{{cars.0}}
+        <br>
+        {{cars.0}}
+    </div>
+</center>
+
+{% endblock %}
