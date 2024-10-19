@@ -1,0 +1,21 @@
+<h1>Welcome to my own world</h1>
+
+<p>And my name is {{fn}} </p>
+
+<p> {{st| title}} </p>
+
+<h1>Car List:</h1>
+
+
+{% for car in cars %}
+    {% if car == 40708 %}
+        <li>{{car + 1}} <br></li>
+    {% else %}
+        <li> {{car| title}} </li>
+
+    {% endif %}
+     
+{% endfor %}
+
+<br>
+{{cars.0}}
