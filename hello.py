@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
@@ -24,7 +24,6 @@ def index():
 
 
 @app.route('/user/<name>')
-
 def user(name):
     return render_template('user.html', name=name)
 
@@ -48,6 +47,7 @@ def form():
     if form.validate_on_submit():
         name = form.name.data
         form.name.data = ''
+        flash('Form submitted successfully')
 
     return render_template('form.html', 
                            form=form, 
