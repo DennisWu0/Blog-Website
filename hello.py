@@ -64,19 +64,17 @@ def index():
     first_name = "Dennis Wu 99, i'm super cool"
     safe_test = "Safe test every thing is Safe"
     cars = ["BMW", "Audi", "Benz", "Toyota",40708]
-    users = User.query.order_by(User.date.asc()).all()
+
     return render_template('index.html', 
                            fn=first_name,
                            st=safe_test,
-                           cars=cars,
-                           users=users)
-# def show all users in the database and route to the below of index page 
+                           cars=cars)
+
  
 
 @app.route('/user/<name>')
 def user(name):
     return render_template('user.html', name=name)
-
 
 # Create an error page
 # Invalid URL
