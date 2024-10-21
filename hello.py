@@ -8,10 +8,12 @@ from datetime import datetime
 app = Flask(__name__)
 # add db
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-
-app.config['SECRET_KEY'] =  'SECRET_KEY'
 # initialize the database
 db = SQLAlchemy(app)
+
+# secret key
+app.config['SECRET_KEY'] =  'SECRET_KEY'
+
 
 # Create a db class
 class User(db.Model):
@@ -62,11 +64,14 @@ def index():
     first_name = "Dennis Wu 99, i'm super cool"
     safe_test = "Safe test every thing is Safe"
     cars = ["BMW", "Audi", "Benz", "Toyota",40708]
+    users = User.query.order_by(User.date.asc()).all()
     return render_template('index.html', 
                            fn=first_name,
                            st=safe_test,
-                           cars=cars)
-
+                           cars=cars,
+                           users=users)
+# def show all users in the database and route to the below of index page 
+ 
 
 @app.route('/user/<name>')
 def user(name):
