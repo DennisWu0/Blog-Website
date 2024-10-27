@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, request, redirect, url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError
+from wtforms.validators import DataRequired, EqualTo, Length
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_migrate import Migrate
@@ -59,6 +59,8 @@ class UserForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
     favorite_color = StringField('Favorite Color')
+    password_hash = PasswordField('Password', validators=[DataRequired()])
+    password_hash2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password_hash')])
     submit = SubmitField('Submit')
 
 
@@ -131,13 +133,19 @@ def user_add():
             flash('User already exists, please change your email')
             
         else:
-            user = User(name=form.name.data, email=form.email.data, favorite_color=form.favorite_color.data)
+            hash_pw = generate_password_hash(form.password_hash.data)
+            user = User(
+                name=form.name.data, 
+                email=form.email.data, 
+                favorite_color=form.favorite_color.data,
+                password_hash=hash_pw)
             db.session.add(user)
             db.session.commit()
         name = form.name.data
         form.name.data = ''
         form.email.data = ''
         form.favorite_color.data = ''
+        form.password_hash.data = ''
         flash('User added successfully')
     users = User.query.order_by(User.date.asc()).all()
     return render_template('user_add.html',
