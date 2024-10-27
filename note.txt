@@ -30,3 +30,5 @@ highlight it and use url_for
 
 #
 add hash: gen hash and check hash
+
+syntax : flask --app hello.py db migrate -m "added pw field"
