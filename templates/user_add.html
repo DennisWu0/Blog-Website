@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Display the message in the top -->
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+
+{% if name  %}
+    <center>
+        <h1>Hello, {{ name| title }}!</h1>
+    </center>
+    <br><br>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date</th>
+                <th scope="col">Favorite Color</th>
+          
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <th scope="row">{{ user.id }}</th>
+                    <td><a href="{{ url_for('update',id=user.id)}}">{{ user.name }} </a> </td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {{ user.date.strftime('%Y-%m-%d') }}
+                    </td>
+                    <td>{{ user.favorite_color }}</td>
+                    <td><a href="{{ url_for('delete',id=user.id)}}"> Delete </a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                <a href="{{ url_for('user_add') }}" class="btn btn-secondary">User Add Page</a>
+            </td>
+        </tr>
+    </tfoot>
+
+{% else %}
+
+    <div class="container">
+        <h2>User List:</h2>
+        <br>
+        <form method = "POST">
+            {{ form.hidden_tag()}}
+            {{ form.name.label}} 
+           
+            <br>
+            {{ form.name(class="form-control",size=20)}}
+            <br>
+            {{ form.email.label}} 
+     
+            <br>
+            {{ form.email(class="form-control",size=20)}}
+            <br>
+            {{ form.favorite_color.label}} 
+     
+            <br>
+            {{ form.favorite_color(class="form-control",size=20)}}
+            <br>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+
+        <br><br>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Favorite Color</th>
+              
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <th scope="row">{{ user.id }}</th>
+                        <td><a href="{{ url_for('update',id=user.id)}}">{{ user.name }} </a></td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {{ user.date.strftime('%Y-%m-%d') }}
+                        </td>
+                        <td>{{ user.favorite_color }}</td>
+                        <td><a href="{{ url_for('delete',id=user.id)}}"> Delete </a></td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </div>
+    
+{% endif %}
+
+{% endblock %}

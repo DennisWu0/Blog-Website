@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Display the message in the top -->
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+    <div class="container">
+        <h2>Update User Information:</h2>
+        <br>
+        <form action= "/form/user_update/{{name_to_update.id}}" method = "POST">
+            {{ form.hidden_tag()}}
+            {{ form.name.label}} 
+           
+            <br>
+            {{ form.name(class="form-control",size=20, value = name_to_update.name)}}
+            <br>
+            {{ form.email.label}} 
+     
+            <br>
+            {{ form.email(class="form-control",size=20, value = name_to_update.email)}}
+            <br>
+            {{ form.favorite_color.label}} 
+     
+            <br>
+            {{ form.favorite_color(class="form-control",size=20, value = name_to_update.favorite_color)}}
+            <br>
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{url_for('delete',id=id)}}" class="btn btn-danger">Delete</a>
+        </form>
+
+        <br><br>
+    </div>
+
+{% endblock %}

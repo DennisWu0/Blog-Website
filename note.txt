@@ -1,0 +1,32 @@
+set the connection to db
+pip install mysql-connector
+create an user database
+
+the step of creating a mysql stil is intricate. i need to check it again
+tommorow
+
+
+i need to add the new column in the database by changing the code
+
+class User and Userform
+
+in the user_add function you need to update the new value of favarite color
+and then blank the input
+
+and i want to update in the update user information page. just add the 
+new value to here
+
+and change 2 html pages: user_add and user_update
+
+??? should i need to pass the name ???
+
+delete
+
+create a delete function 
+
+add a new colums for delete
+highlight it and use url_for
+
+
+#
+add hash: gen hash and check hash

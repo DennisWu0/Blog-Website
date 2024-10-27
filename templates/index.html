@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<center>
+    <div>
+        <h1>Welcome to my own world</h1>
+
+        <p>And my name is {{fn}} </p>
+
+        <p> {{st| title}} </p>
+
+        <h1>Car List:</h1>
+
+
+        {% for car in cars %}
+            {% if car == 40708 %}
+                <li>{{car + 1}} <br></li>
+            {% else %}
+                <li> {{car| title}} </li>
+
+            {% endif %}
+            
+        {% endfor %}
+
+        <br>
+<!--         
+        {% for user in users %}
+            {{ user.id }}. 
+            {{ user.name }} -
+            {{ user.email}}
+            {{ user.data}} <br>
+        {% endfor %}
+ -->
+
+    </div>
+</center>
+
+{% endblock %}

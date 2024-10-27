@@ -1,0 +1,8 @@
+flask
+jinja2
+flask-wtf
+flask-sqlalchemy
+mysql-connector
+pymysql
+requests
+flask-migrate
