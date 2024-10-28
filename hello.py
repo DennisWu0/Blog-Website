@@ -52,8 +52,8 @@ class User(db.Model):
         return f"<User {self.name}>"
 
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 class UserForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
@@ -63,6 +63,11 @@ class UserForm(FlaskForm):
     password_hash2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password_hash')])
     submit = SubmitField('Submit')
 
+
+class PasswordForm(FlaskForm):
+    email = StringField('What is your email?', validators=[DataRequired()])
+    password_hash = PasswordField('What is your password?', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
@@ -141,12 +146,18 @@ def user_add():
                 password_hash=hash_pw)
             db.session.add(user)
             db.session.commit()
+
         name = form.name.data
+        # print(f"Stored hash: {user.password_hash}")  # Debug print
+        # print(f"Password to check: {form.password_hash.data}")  # Debug print
+        # print(check_password_hash(user.password_hash, form.password_hash.data))
         form.name.data = ''
         form.email.data = ''
         form.favorite_color.data = ''
         form.password_hash.data = ''
         flash('User added successfully')
+
+    
     users = User.query.order_by(User.date.asc()).all()
     return render_template('user_add.html',
                            form=form,
@@ -181,6 +192,35 @@ def page_not_found(e):
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template('500.html'), 500
+
+
+@app.route('/pw_test', methods=['GET', 'POST'])
+def pw_test():
+    email = None
+    password = None
+    pw_to_check = None
+    passed = None
+    form = PasswordForm()
+
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password_hash.data
+
+        form.email.data = ''
+        form.password_hash.data = ''
+        # flash('Form submitted successfully')
+
+        pw_to_check = User.query.filter_by(email=email).first()
+
+        passed = check_password_hash(pw_to_check.password_hash, password)
+        
+    return render_template('pw_test.html', 
+                           form=form, 
+                           pw_to_check = pw_to_check,
+                           email=email,
+                           passed = passed,
+                           password=password)
+
 
 @app.route('/form', methods=['GET', 'POST'])
 def form():
