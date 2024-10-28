@@ -32,3 +32,15 @@ highlight it and use url_for
 add hash: gen hash and check hash
 
 syntax : flask --app hello.py db migrate -m "added pw field"
+
+
+in the user_add html add the space for pw
+
+UserForm fucntion change 
+
+# verifying hash pw
+
+a new test pw function from form function 
+
+PasswordForm class
+
