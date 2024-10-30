@@ -73,6 +73,16 @@ class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+# Create some Json here
+@app.route('/date')
+def date():
+    aLotOfThing = {
+        'first_name': "Dennis Wu 99, i'm super cool",
+        'safe_test': "Safe test every thing is Safe",
+        'cars': ["BMW", "Audi", "Benz", "Toyota", 40708]
+        }
+
+    return aLotOfThing
 
 
 # Delete user
