@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
+from wtforms.widgets import TextArea
 
 
 app = Flask(__name__)
@@ -23,6 +24,15 @@ migrate = Migrate(app, db)
 
 # secret key
 app.config['SECRET_KEY'] =  'SECRET_KEY'
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    autor = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    slug = db.Column(db.String(255))
 
 
 
@@ -55,6 +65,14 @@ class User(db.Model):
 # with app.app_context():
 #     db.create_all()
 
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    author = StringField('Author', validators=[DataRequired()])
+    content = StringField('Content', validators=[DataRequired()], widget=TextArea())
+    slug = StringField('Slug', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
 class UserForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
@@ -72,6 +90,28 @@ class PasswordForm(FlaskForm):
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+@app.route('/post_data', methods=['GET', 'POST'])
+def post_data():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(
+            title=form.title.data,
+            content=form.content.data,
+            autor=form.author.data,
+            slug=form.slug.data
+        )
+
+        form.title.data = ''
+        form.content.data = ''
+        form.author.data = ''
+        form.slug.data = ''
+
+        db.session.add(post)
+        db.session.commit()
+        flash('Post added successfully')
+    return render_template('post_data.html', form=form)
+
 
 # Create some Json here
 @app.route('/date')

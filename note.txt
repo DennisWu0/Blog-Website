@@ -47,3 +47,13 @@ PasswordForm class
 
 
 # creating some json
+
+- post model includes: id, title, content, author, date_posted,
+and slug
+
+- adn don't forget the migration
+
+- A post form class includes: title, author, slug, and content
+, submit button
+
+- simple rest api here
