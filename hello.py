@@ -30,7 +30,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    autor = db.Column(db.String(255), nullable=False)
+    author = db.Column(db.String(255), nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
     slug = db.Column(db.String(255))
 
@@ -91,6 +91,21 @@ class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+
+@app.route('/post/post_read/<int:id>', methods=['GET', 'POST'])
+def read_post(id):
+    post = Post.query.get_or_404(id)
+    return render_template('post_detail.html', post=post, id=id)
+
+
+@app.route('/post')
+def posts():
+    
+    posts = Post.query.order_by(Post.date.desc()).all()
+
+    return render_template('post.html', posts=posts)
+
+
 @app.route('/post_data', methods=['GET', 'POST'])
 def post_data():
     form = PostForm()
@@ -98,7 +113,7 @@ def post_data():
         post = Post(
             title=form.title.data,
             content=form.content.data,
-            autor=form.author.data,
+            author=form.author.data,
             slug=form.slug.data
         )
 

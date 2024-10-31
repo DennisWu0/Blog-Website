@@ -57,3 +57,16 @@ and slug
 , submit button
 
 - simple rest api here
+
+
+in the last post page, i spent a lot on this widget=TextArea(). cause i put it in the 
+datarequired field, instead of separating it.
+
+
+# create an individual blog page when pressing to the read more
+
+create a route in hello.py route to the post:id
+
+change the url_for of READ MORE button
+
+create a layout of this page
