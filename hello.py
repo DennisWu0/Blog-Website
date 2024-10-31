@@ -7,6 +7,8 @@ from datetime import datetime
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms.widgets import TextArea
+import re
+
 
 
 app = Flask(__name__)
@@ -127,6 +129,47 @@ def post_data():
         flash('Post added successfully')
     return render_template('post_data.html', form=form)
 
+# edit page
+@app.route('/post/post_edit/<int:id>', methods=['GET', 'POST'])
+def edit_post(id):
+    post = Post.query.get_or_404(id)
+    form = PostForm()
+
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        post.author = form.author.data
+        post.slug = form.slug.data
+
+        try:
+            db.session.commit()
+            flash('Post updated successfully')
+            return redirect(url_for('posts'))
+        except:
+            flash('Error updating post')
+            return redirect(url_for('posts'))
+    else:
+        form.title.data = post.title
+        form.content.data = post.content
+        form.author.data = post.author
+        form.slug.data = post.slug
+        return render_template('post_edit.html', form=form, post=post)
+
+# delete page
+@app.route('/post/post_delete/<int:id>', methods=['GET', 'POST'])
+def delete_post(id):
+    post_to_delete = Post.query.get_or_404(id)
+    try:
+        db.session.delete(post_to_delete)
+        db.session.commit()
+        flash('Post deleted successfully')
+        return redirect(url_for('posts'))
+    except:
+        flash('Error deleting post')
+        return redirect(url_for('posts'))
+    
+    
+    
 
 # Create some Json here
 @app.route('/date')

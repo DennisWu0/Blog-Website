@@ -70,3 +70,15 @@ create a route in hello.py route to the post:id
 change the url_for of READ MORE button
 
 create a layout of this page
+
+
+# edit the content of blog page
+
+when i press to edit button it will show the post add page with the 
+existing content for adjusting.
+
+create edit route to return it's content
+
+add the url_for to edit button
+
+create edit.html that has the same with the post_data.html
