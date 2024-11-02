@@ -82,3 +82,5 @@ create edit route to return it's content
 add the url_for to edit button
 
 create edit.html that has the same with the post_data.html
+
+# got the logic of this Flask server
