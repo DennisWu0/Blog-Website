@@ -38,7 +38,7 @@
                         {{ user.date.strftime('%Y-%m-%d') }}
                     </td>
                     <td>{{ user.favorite_color }}</td>
-                    <td>{{ user.password_hash }}</td>
+                    <td>{{ user.password_hash[:10] }}...</td>
                     <td><a href="{{ url_for('delete',id=user.id)}}"> Delete </a></td>
                     
                 </tr>
@@ -102,7 +102,7 @@
               
                 </tr>
             </thead>
-            <tbody>
+           <tbody>
                 {% for user in users %}
                     <tr>
                         <th scope="row">{{ user.id }}</th>
@@ -112,13 +112,13 @@
                             {{ user.date.strftime('%Y-%m-%d') }}
                         </td>
                         <td>{{ user.favorite_color }}</td>
-                        <td>{{ user.password_hash }}</td>
+                        <td>{{ user.password_hash[:10] }}..</td>
                         <td><a href="{{ url_for('delete',id=user.id)}}"> Delete </a></td>
                         
 
                     </tr>
                 {% endfor %}
-            </tbody>
+            </tbody> 
     </div>
     
 {% endif %}

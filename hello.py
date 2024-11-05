@@ -46,7 +46,7 @@ class User(db.Model):
     date = db.Column(db.DateTime, default=datetime.utcnow)
     favorite_color = db.Column(db.String(80))
     
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(255))
 
     @property
     def password(self):
@@ -97,7 +97,7 @@ class NameForm(FlaskForm):
 @app.route('/post/post_read/<int:id>', methods=['GET', 'POST'])
 def read_post(id):
     post = Post.query.get_or_404(id)
-    return render_template('post_detail.html', post=post, id=id)
+    return render_template('post_content.html', post=post, id=id)
 
 
 @app.route('/post')
