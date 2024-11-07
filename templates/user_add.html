@@ -20,6 +20,7 @@
         <thead>
             <tr>
                 <th scope="col">ID</th>
+                <th scope="col">Username></th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Date</th>
@@ -32,6 +33,7 @@
             {% for user in users %}
                 <tr>
                     <th scope="row">{{ user.id }}</th>
+                    <td> {{ user.username }} </td>
                     <td><a href="{{ url_for('update',id=user.id)}}">{{ user.name }} </a> </td>
                     <td>{{ user.email }}</td>
                     <td>
@@ -60,6 +62,11 @@
         <br>
         <form method = "POST">
             {{ form.hidden_tag()}}
+            {{ form.username.label}} 
+           
+            <br>
+            {{ form.username(class="form-control",size=20)}}
+            <br>
             {{ form.name.label}} 
            
             <br>
@@ -94,6 +101,7 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">Username</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Date</th>
@@ -106,6 +114,7 @@
                 {% for user in users %}
                     <tr>
                         <th scope="row">{{ user.id }}</th>
+                        <td> {{ user.username }} </td>
                         <td><a href="{{ url_for('update',id=user.id)}}">{{ user.name }} </a></td>
                         <td>{{ user.email }}</td>
                         <td>

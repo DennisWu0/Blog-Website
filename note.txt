@@ -90,4 +90,21 @@ fixed this bug
 
 # User Login
 
+pip install flask_login
+
+from flask_login import UserMixin, login_user, loginmanager, login_require, logout_user, current_user
+
+why add UserMixin in the users Class???
+
+and we just focus on the user_add page
+
+add username to user class and migrate the database
+
+remember that username still need to add to userform class
+
+besides we adjust the user_add function and also the html page（the form and showed db）
+
+login html and dashboard html
+
+
 # User logout

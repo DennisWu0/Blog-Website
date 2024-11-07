@@ -7,6 +7,7 @@ from datetime import datetime
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms.widgets import TextArea
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import re
 
 
@@ -39,8 +40,9 @@ class Post(db.Model):
 
 
 # Create a db class
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), nullable=False)
     name = db.Column(db.String(80),nullable=False)
     email = db.Column(db.String(80),nullable=False, unique=True)
     date = db.Column(db.DateTime, default=datetime.utcnow)
@@ -92,6 +94,10 @@ class PasswordForm(FlaskForm):
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+# user login
+# @app.route()
 
 
 @app.route('/post/post_read/<int:id>', methods=['GET', 'POST'])
