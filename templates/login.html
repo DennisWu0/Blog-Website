@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Display the message in the top -->
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="text p-5 border rounded shadow-lg" style="background-color: #f8f9fa;">
+                <h1 class="text-center text-primary mb-3">Login</h1>
+                <br>
+                
+                <form method="POST" class="mb-3">
+                    {{ form.hidden_tag() }}
+                    {{ form.username.label }} 
+                    <br>
+                    {{ form.username(class="form-control", size=20) }}
+                    <br>
+                    {{ form.password_hash.label }} 
+                    <br>
+                    {{ form.password_hash(class="form-control", size=20) }}
+                    <br>
+                    
+            
+                    {{ form.submit(class="btn btn-primary") }}
+                </form>
+            </div>
+        </div>
+        
+   
+    </div>
+
+    
+
+{% endblock %}

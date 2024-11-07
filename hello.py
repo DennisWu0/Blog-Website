@@ -28,6 +28,15 @@ migrate = Migrate(app, db)
 # secret key
 app.config['SECRET_KEY'] =  'SECRET_KEY'
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -78,7 +87,9 @@ class PostForm(FlaskForm):
 
 
 class UserForm(FlaskForm):
+    
     name = StringField('Name', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
     favorite_color = StringField('Favorite Color')
     password_hash = PasswordField('Password', validators=[DataRequired()])
@@ -95,9 +106,39 @@ class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password_hash = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
 
 # user login
-# @app.route()
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is not None and user.verify_password(form.password_hash.data):
+            login_user(user)
+            flash('Logged in successfully')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid username or password')
+    return render_template('login.html', form=form)
+
+# user logout
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Logged out successfully')
+    return redirect(url_for('login'))
+
+# dashboard
+@app.route('/dashboard')
+@login_required
+def dashboard():
+
+    return render_template('dashboard.html')
 
 
 @app.route('/post/post_read/<int:id>', methods=['GET', 'POST'])
@@ -254,6 +295,7 @@ def user_add():
         else:
             hash_pw = generate_password_hash(form.password_hash.data)
             user = User(
+                username = form.username.data,
                 name=form.name.data, 
                 email=form.email.data, 
                 favorite_color=form.favorite_color.data,
@@ -265,6 +307,7 @@ def user_add():
         # print(f"Stored hash: {user.password_hash}")  # Debug print
         # print(f"Password to check: {form.password_hash.data}")  # Debug print
         # print(check_password_hash(user.password_hash, form.password_hash.data))
+        form.username.data = ''
         form.name.data = ''
         form.email.data = ''
         form.favorite_color.data = ''
