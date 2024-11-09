@@ -107,4 +107,7 @@ besides we adjust the user_add function and also the html page（the form and sh
 login html and dashboard html
 
 
+create 2 simple routes: login and dashboard 
 # User logout
+
+take a rest but not quite
