@@ -111,3 +111,6 @@ create 2 simple routes: login and dashboard
 # User logout
 
 take a rest but not quite
+
+
+#user login and access to the dashboard

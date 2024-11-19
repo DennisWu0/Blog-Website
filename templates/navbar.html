@@ -15,9 +15,7 @@
           <li class="nav-item"></li>
             <a class="nav-link" href="{{ url_for('form') }}">Form</a>
           </li>
-          <li class="nav-item"></li>
-            <a class="nav-link" href="{{ url_for('user_add') }}">User Add</a>
-          </li>
+          
 
           <li class="nav-item"></li>
           <a class="nav-link" href="{{ url_for('post_data') }}">Posts Add</a>
@@ -26,9 +24,21 @@
           <li class="nav-item"></li>
           <a class="nav-link" href="{{ url_for('posts') }}">Posts</a>
           </li>
-          <li class="nav-item"></li>
-          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-          </li>
+          {% if current_user.is_authenticated %}
+          
+            <li class="nav-item"></li>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+
+          {% else %}
+            <li class="nav-item"></li>
+              <a class="nav-link" href="{{ url_for('user_add') }}">Register</a>
+            </li>
+            <li class="nav-item"></li>
+              <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            </li>
+
+          {% endif %}
           <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Dropdown

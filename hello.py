@@ -83,7 +83,7 @@ class PostForm(FlaskForm):
     author = StringField('Author', validators=[DataRequired()])
     content = StringField('Content', validators=[DataRequired()], widget=TextArea())
     slug = StringField('Slug', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Submit') 
 
 
 class UserForm(FlaskForm):
@@ -137,7 +137,7 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-
+    
     return render_template('dashboard.html')
 
 
@@ -148,14 +148,15 @@ def read_post(id):
 
 
 @app.route('/post')
+# @login_required
 def posts():
-    
     posts = Post.query.order_by(Post.date.desc()).all()
 
     return render_template('post.html', posts=posts)
 
 
 @app.route('/post_data', methods=['GET', 'POST'])
+@login_required
 def post_data():
     form = PostForm()
     if form.validate_on_submit():

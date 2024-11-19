@@ -10,11 +10,43 @@
     </div>
 {% endfor %}
 
-<div class="container">
-
-    <h1>Hi</h1>
-    <a href="{{ url_for('logout') }}">Logout</a> 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Card for User Information -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="card-title mb-0">User Dashboard</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Username:</strong> <span>{{ current_user.username }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Email:</strong> <span>{{ current_user.email }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Joined:</strong> <span>{{ current_user.date.strftime('%Y-%m-%d') }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Name:</strong> <span>{{ current_user.name }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Favorite Color:</strong> <span>{{ current_user.favorite_color }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-    
+
+
+
+
 
 {% endblock %}
