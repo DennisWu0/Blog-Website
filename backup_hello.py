@@ -1,12 +1,14 @@
 from flask import Flask, render_template, flash, request, redirect, url_for
-
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError
+from wtforms.validators import DataRequired, EqualTo, Length
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
+from wtforms.widgets import TextArea
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import re
-from form import PostForm, UserForm, PasswordForm, NameForm, LoginForm
 
 
 
@@ -76,7 +78,38 @@ class User(db.Model, UserMixin):
 # with app.app_context():
 #     db.create_all()
 
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    author = StringField('Author', validators=[DataRequired()])
+    content = StringField('Content', validators=[DataRequired()], widget=TextArea())
+    slug = StringField('Slug', validators=[DataRequired()])
+    submit = SubmitField('Submit') 
 
+
+class UserForm(FlaskForm):
+    
+    name = StringField('Name', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    favorite_color = StringField('Favorite Color')
+    password_hash = PasswordField('Password', validators=[DataRequired()])
+    password_hash2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password_hash')])
+    submit = SubmitField('Submit')
+
+
+class PasswordForm(FlaskForm):
+    email = StringField('What is your email?', validators=[DataRequired()])
+    password_hash = PasswordField('What is your password?', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class NameForm(FlaskForm):
+    name = StringField('What is your name?', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password_hash = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
 
 # user login
 @app.route('/login', methods=['GET', 'POST'])
